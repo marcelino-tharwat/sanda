@@ -14,6 +14,7 @@ class SandaApp extends StatelessWidget {
       minTextAdapt: true,
       child: MaterialApp.router(
         routerConfig: router,
+        debugShowCheckedModeBanner: false,
         title: 'Sanda',
         theme: ThemeData(
             primaryColor: ColorsManager.mainBlue,

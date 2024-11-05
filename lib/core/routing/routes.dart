@@ -1,5 +1,5 @@
 
 class Routes {
-  //static const OnBordingScreen = 
+  static const loginScreen ='/loginScreen'; 
   
 }
