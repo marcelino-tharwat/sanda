@@ -8,12 +8,37 @@ class TextStyles {
     fontWeight: FontWeight.w700,
     color: ColorsManager.mainBlue,
   );
+  static TextStyle font24mainBlueBold = TextStyle(
+    fontSize: 24.sp,
+    fontWeight: FontWeight.w700,
+    color: ColorsManager.mainBlue,
+  );
+  static TextStyle font13mainBlueRegular = TextStyle(
+    fontSize: 13.sp,
+    fontWeight: FontWeight.w400,
+    color: ColorsManager.mainBlue,
+  );
   static TextStyle font12darkGrayRegular = TextStyle(
     fontSize: 12.sp,
     fontWeight: FontWeight.w400,
     color: ColorsManager.darkGray,
   );
-    static TextStyle font14wightBold = TextStyle(
+  static TextStyle font13BlckRegular = TextStyle(
+      fontSize: 13.sp, fontWeight: FontWeight.w400, color: Colors.black);
+
+  static TextStyle font11darkGrayRegular = TextStyle(
+    fontSize: 11.sp,
+    fontWeight: FontWeight.w400,
+    color: ColorsManager.darkGray,
+  );
+  static TextStyle font11blackRegular = TextStyle(
+      fontSize: 11.sp, fontWeight: FontWeight.w400, color: Colors.black);
+  static TextStyle font14darkGrayRegular = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w400,
+    color: ColorsManager.darkGray,
+  );
+  static TextStyle font14wightBold = TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeight.w700,
     color: Colors.white,
