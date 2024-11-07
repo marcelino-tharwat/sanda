@@ -19,11 +19,13 @@ class AppFormTextFiled extends StatelessWidget {
         isDense: true,
         contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: ColorsManager.wightGray),
+          borderSide:
+              const BorderSide(color: ColorsManager.wightGray, width: 1.3),
           borderRadius: BorderRadius.circular(16),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: ColorsManager.wightGray),
+          borderSide:
+              const BorderSide(color: ColorsManager.wightGray, width: 1.3),
           borderRadius: BorderRadius.circular(16),
         ),
         errorBorder: OutlineInputBorder(
