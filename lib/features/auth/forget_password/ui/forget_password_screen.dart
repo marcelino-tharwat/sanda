@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sanda/core/helper/spacer.dart';
+import 'package:sanda/core/routing/routes.dart';
 import 'package:sanda/core/theming/styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sanda/core/widgets/app_form_text_filed.dart';
@@ -30,7 +32,9 @@ class ForgetPasswordScreen extends StatelessWidget {
             const Spacer(),
             AppTextButton(
               bottonText: 'Reset Password',
-              onPressed: () {},
+              onPressed: () {
+                GoRouter.of(context).push(Routes.otpScreen);
+              },
             )
           ],
         ),
