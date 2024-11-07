@@ -7,8 +7,15 @@ class AppFormTextFiled extends StatelessWidget {
   final String hintText;
   final bool? isObscured;
   final Widget? suffixIcon;
+  final TextEditingController? controller;
+  final String? Function(String?)? validator;
   const AppFormTextFiled(
-      {super.key, required this.hintText, this.isObscured, this.suffixIcon});
+      {super.key,
+      required this.hintText,
+      this.isObscured,
+      this.suffixIcon,
+      this.controller,
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +48,8 @@ class AppFormTextFiled extends StatelessWidget {
         suffixIcon: suffixIcon,
       ),
       obscureText: isObscured ?? false,
+      controller: controller,
+      validator: validator != null ? (value) => validator!(value) : null,
     );
   }
 }
