@@ -4,8 +4,8 @@ import 'package:sanda/core/helper/spacer.dart';
 import 'package:sanda/core/theming/styles.dart';
 import 'package:sanda/core/widgets/app_text_button.dart';
 import 'package:sanda/core/widgets/terms_and_condtions.dart';
-import 'package:sanda/features/login/ui/widgets/email_and_password.dart';
-import 'package:sanda/features/login/ui/widgets/remember_me_and_forget_password.dart';
+import 'package:sanda/features/auth/login/ui/widgets/email_and_password.dart';
+import 'package:sanda/features/auth/login/ui/widgets/remember_me_and_forget_password.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

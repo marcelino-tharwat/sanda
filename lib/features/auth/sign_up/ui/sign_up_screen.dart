@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sanda/core/helper/spacer.dart';
 import 'package:sanda/core/theming/styles.dart';
 import 'package:sanda/core/widgets/app_text_button.dart';
-import 'package:sanda/features/sign_up/ui/widgets/input_filed.dart';
+import 'package:sanda/features/auth/sign_up/ui/widgets/input_filed.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});

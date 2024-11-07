@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sanda/core/helper/spacer.dart';
 import 'package:sanda/core/widgets/app_form_text_filed.dart';
-import 'package:sanda/features/sign_up/ui/widgets/drop_down_gender.dart';
+import 'package:sanda/features/auth/sign_up/ui/widgets/drop_down_gender.dart';
 
 class InputFiled extends StatefulWidget {
   const InputFiled({super.key});
