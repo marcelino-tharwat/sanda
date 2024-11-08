@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sanda/core/helper/spacer.dart';
+import 'package:sanda/core/routing/routes.dart';
 import 'package:sanda/core/theming/styles.dart';
 import 'package:sanda/core/widgets/app_text_button.dart';
 import 'package:sanda/core/widgets/terms_and_condtions.dart';
+import 'package:sanda/features/auth/login/logic/login_cubit.dart';
 import 'package:sanda/features/auth/login/ui/widgets/email_and_password.dart';
 import 'package:sanda/features/auth/login/ui/widgets/remember_me_and_forget_password.dart';
 
@@ -35,7 +39,16 @@ class LoginScreen extends StatelessWidget {
                 verticalSpace(250),
                 AppTextButton(
                   bottonText: 'Login',
-                  onPressed: () {},
+                  onPressed: () {
+                    final isValid = context
+                        .read<LoginCubit>()
+                        .formKey
+                        .currentState!
+                        .validate();
+                    if (!isValid) {
+                      return;
+                    }
+                  },
                 ),
                 verticalSpace(25),
                 const TermsAndCondtions()
