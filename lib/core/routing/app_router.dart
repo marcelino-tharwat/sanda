@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sanda/core/di/dependency_injection.dart';
 import 'package:sanda/core/routing/routes.dart';
 import 'package:sanda/features/auth/forget_password/ui/forget_password_screen.dart';
 import 'package:sanda/features/auth/login/logic/login_cubit.dart';
@@ -29,7 +30,7 @@ final GoRouter router = GoRouter(
           path: Routes.loginScreen,
           builder: (BuildContext context, GoRouterState state) {
             return BlocProvider(
-              create: (context) => LoginCubit(),
+              create: (context) => getIt<LoginCubit>(),
               child: const LoginScreen(),
             );
           },
@@ -38,7 +39,7 @@ final GoRouter router = GoRouter(
           path: Routes.signUpScreen,
           builder: (BuildContext context, GoRouterState state) {
             return BlocProvider(
-              create: (context) => SignUpCubit(),
+              create: (context) => getIt<SignUpCubit>(),
               child: const SignUpScreen(),
             );
           },

@@ -38,6 +38,11 @@ class TextStyles {
     fontWeight: FontWeight.w400,
     color: ColorsManager.darkGray,
   );
+    static TextStyle font14wightGrayBold = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w700,
+    color: ColorsManager.wightGray,
+  );
   static TextStyle font14wightBold = TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeight.w700,

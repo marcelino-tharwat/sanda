@@ -53,11 +53,11 @@ class _EmailAndPasswordState extends State<EmailAndPassword> {
               validator: (value) {
                 if (value == null ||
                     value.isEmpty ||
-                    !AppRegex.isValidEmail(value)) {
+                    !AppRegex.isValidEmail(value) ) {
                   return 'please enter a valid email';
                 }
               },
-              hintText: 'Email Or Phone Number '),
+              hintText: 'Email'),
           verticalSpace(18),
           AppFormTextFiled(
             controller: context.read<LoginCubit>().passwordController,

@@ -25,16 +25,20 @@ class WhoAreYouScreen extends StatelessWidget {
                 'Select your role and create a positive impact on someone’s life today .',
                 style: TextStyles.font14darkGrayRegular.copyWith(height: 1.6),
               ),
-              verticalSpace(78),
+              // verticalSpace(78),
+              const Spacer(),
+
               const Options(),
               const Spacer(),
               Text(
                 'Or',
                 style: TextStyles.font14darkGrayRegular,
               ),
-              const Spacer(),
+              verticalSpace(50),
+
+              // const Spacer(),
               const AlredyHaveAccount(),
-              const Spacer(),
+              verticalSpace(50),
               const TermsAndCondtions(),
             ],
           ),
