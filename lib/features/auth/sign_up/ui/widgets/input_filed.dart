@@ -26,6 +26,26 @@ class _InputFiledState extends State<InputFiled> {
   bool validPhoneNumber = false;
   bool validEgyptianNationalID = false;
   bool hasSpechailCharacter = false;
+
+  void setupValidationListeners() {
+    passordControlr.addListener(updateValidationState);
+    phonControlr.addListener(updateValidationState);
+    egyptianNationalIDController.addListener(updateValidationState);
+  }
+
+  void updateValidationState() {
+    setState(() {
+      hasLowerCase = AppRegex.hasLowercase(passordControlr.text);
+      hasUpperCase = AppRegex.hasUppercase(passordControlr.text);
+      hasnumber = AppRegex.hasNumber(passordControlr.text);
+      hasMinLen = AppRegex.hasMinLength(passordControlr.text);
+      hasSpechailCharacter = AppRegex.hasSpecialCharacter(passordControlr.text);
+      validPhoneNumber = AppRegex.validPhoneNumber(phonControlr.text);
+      validEgyptianNationalID =
+          AppRegex.egyptianNationalID(egyptianNationalIDController.text);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -33,25 +53,7 @@ class _InputFiledState extends State<InputFiled> {
     phonControlr = context.read<SignUpCubit>().phoneControlr;
     egyptianNationalIDController =
         context.read<SignUpCubit>().egyptianNationalIDController;
-    setupPasswordControlorListener();
-  }
-
-  void setupPasswordControlorListener() {
-    passordControlr.addListener(
-      () {
-        setState(() {
-          hasLowerCase = AppRegex.hasLowercase(passordControlr.text);
-          hasMinLen = AppRegex.hasMinLength(passordControlr.text);
-          hasSpechailCharacter =
-              AppRegex.hasSpecialCharacter(passordControlr.text);
-          hasUpperCase = AppRegex.hasUppercase(passordControlr.text);
-          hasnumber = AppRegex.hasNumber(passordControlr.text);
-          validPhoneNumber = AppRegex.validPhoneNumber(phonControlr.text);
-          validEgyptianNationalID =
-              AppRegex.egyptianNationalID(egyptianNationalIDController.text);
-        });
-      },
-    );
+    setupValidationListeners();
   }
 
   @override
@@ -82,23 +84,28 @@ class _InputFiledState extends State<InputFiled> {
           verticalSpace(18),
           AppFormTextFiled(
             hintText: 'Phone Number',
-            controller: context.read<SignUpCubit>().phoneControlr,
+            controller: phonControlr,
             validator: (value) {
-              if (value == null || value.isEmpty || !validPhoneNumber) {
-                return 'please enter a valid phone';
+              if (value == null || value.isEmpty) {
+                return 'Please enter your phone number';
+              } else if (!AppRegex.validPhoneNumber(value)) {
+                return 'Invalid phone number';
               }
+              return null;
             },
             keyboardType: TextInputType.number,
           ),
           verticalSpace(18),
           AppFormTextFiled(
             hintText: 'National ID',
-            controller:
-                context.read<SignUpCubit>().egyptianNationalIDController,
+            controller: egyptianNationalIDController,
             validator: (value) {
-              if (value == null || value.isEmpty || !validEgyptianNationalID) {
-                return 'please enter a valid ID';
+              if (value == null || value.isEmpty) {
+                return 'Please enter your national ID';
+              } else if (!AppRegex.egyptianNationalID(value)) {
+                return 'Invalid National ID (must be 14 digits)';
               }
+              return null;
             },
             keyboardType: TextInputType.number,
           ),
@@ -173,6 +180,7 @@ class _InputFiledState extends State<InputFiled> {
               Expanded(
                 child: AppFormTextFiled(
                   hintText: 'Age',
+                  controller: context.read<SignUpCubit>().ageControlr,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'please enter an age';
@@ -181,7 +189,8 @@ class _InputFiledState extends State<InputFiled> {
                   keyboardType: TextInputType.number,
                 ),
               ),
-              horizontalSpace(16), // Add some spacing between the fields
+              horizontalSpace(16),
+              // Add some spacing between the fields
               const Expanded(
                 child: DropDownGender(),
               ),
@@ -190,5 +199,12 @@ class _InputFiledState extends State<InputFiled> {
         ],
       ),
     );
+  }
+
+  void disPose() {
+    passordControlr.dispose();
+    phonControlr.dispose();
+    egyptianNationalIDController.dispose();
+    super.dispose();
   }
 }

@@ -30,11 +30,12 @@ class AppRegex {
   }
 
   static bool validPhoneNumber(String phoneNumber) {
-    return RegExp(r'^(010|012|015)[0-9]{8}$').hasMatch(phoneNumber);
+    return RegExp(r'^01[0-2,5]{1}[0-9]{8}$').hasMatch(phoneNumber);
   }
 
   static bool egyptianNationalID(String egyptianNationalID) {
-    return RegExp(r'.{14,14}')
-        .hasMatch(egyptianNationalID);
+    return RegExp(r'^\d{14}$').hasMatch(egyptianNationalID);
   }
+
+
 }
