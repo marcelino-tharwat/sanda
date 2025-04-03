@@ -4,7 +4,6 @@ part 'sign_up_req_model.g.dart';
 
 @JsonSerializable()
 class SignUpReqModel {
-  final int id;
   final String firstName;
   final String lastName;
   final String phoneNumber;
@@ -12,12 +11,15 @@ class SignUpReqModel {
   final String email;
   final String password;
   final int age;
-
+  final String address;
   final String gender;
-  final String imagePath;
+  final String? profilePicturePath;
+  final bool hasMobilityDisability;
+  final String? disabilityProofPath;
 
   SignUpReqModel(
-    this.id, {
+   { this.profilePicturePath,
+    this.disabilityProofPath, 
     required this.firstName,
     required this.lastName,
     required this.phoneNumber,
@@ -26,9 +28,9 @@ class SignUpReqModel {
     required this.password,
     required this.age,
     required this.gender,
-    required this.imagePath,
+    required this.address,
+    required this.hasMobilityDisability,
   });
-
   factory SignUpReqModel.fromJson(Map<String, dynamic> json) =>
       _$SignUpReqModelFromJson(json);
 

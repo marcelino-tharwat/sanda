@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sanda/core/routing/app_router.dart';
 import 'package:sanda/core/theming/colors.dart';
 import 'package:sanda/core/theming/styles.dart';
 import 'package:sanda/features/auth/sign_up/logic/sign_up_cubit.dart';

@@ -175,6 +175,16 @@ class _InputFiledState extends State<InputFiled> {
             },
           ),
           verticalSpace(18),
+          AppFormTextFiled(
+            hintText: 'Address',
+            controller: context.read<SignUpCubit>().addressControler,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'please enter a valid address';
+              }
+            },
+          ),
+          verticalSpace(18),
           Row(
             children: [
               Expanded(

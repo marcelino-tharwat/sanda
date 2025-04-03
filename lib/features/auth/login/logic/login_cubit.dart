@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+import 'package:sanda/core/helper/app_constant.dart';
 import 'package:sanda/features/auth/login/data/models/login_req_model.dart';
+import 'package:sanda/features/auth/login/data/models/login_res_model.dart';
 import 'package:sanda/features/auth/login/data/repo/login_repo.dart';
 
 part 'login_state.dart';
@@ -16,11 +17,14 @@ class LoginCubit extends Cubit<LoginState> {
   LoginCubit(this.loginRepo) : super(LoginInitial());
   Future<void> emitlogin() async {
     emit(LoginLoading());
-
     final response = await loginRepo.login(
         loginReqModel: LoginReqModel(
             email: emailController.text, password: passwordController.text));
-    response.fold((failure) => emit(LoginError(failure.errorMessage)),
-        (loginResModel) => emit(LoginSuccess()));
+    response.fold(
+      (failure) => emit(LoginError(failure.errorMessage)),
+      (loginResModel) => emit(
+        LoginSuccess(loginResModel: loginResModel),
+      ),
+    );
   }
 }

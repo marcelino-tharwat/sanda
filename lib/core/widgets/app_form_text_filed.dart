@@ -9,8 +9,9 @@ class AppFormTextFiled extends StatelessWidget {
   final Widget? suffixIcon;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
-
+  final Color? colorTextFiled;
   final String? Function(String?)? validator;
+
   const AppFormTextFiled(
       {super.key,
       required this.hintText,
@@ -18,24 +19,25 @@ class AppFormTextFiled extends StatelessWidget {
       this.suffixIcon,
       this.controller,
       this.validator,
-      this.keyboardType});
+      this.keyboardType,
+      this.colorTextFiled});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
         filled: true,
-        fillColor: ColorsManager.wightGray,
+        fillColor: colorTextFiled ?? ColorsManager.wightGray,
         isDense: true,
         contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
         focusedBorder: OutlineInputBorder(
           borderSide:
-              const BorderSide(color: ColorsManager.wightGray, width: 1.3),
+               BorderSide(color:colorTextFiled ?? ColorsManager.wightGray, width: 1.3),
           borderRadius: BorderRadius.circular(16),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide:
-              const BorderSide(color: ColorsManager.wightGray, width: 1.3),
+               BorderSide(color: colorTextFiled ??ColorsManager.wightGray, width: 1.3),
           borderRadius: BorderRadius.circular(16),
         ),
         errorBorder: OutlineInputBorder(
@@ -53,7 +55,7 @@ class AppFormTextFiled extends StatelessWidget {
       obscureText: isObscured ?? false,
       controller: controller,
       validator: validator != null ? (value) => validator!(value) : null,
-      keyboardType: keyboardType ,
+      keyboardType: keyboardType,
     );
   }
 }

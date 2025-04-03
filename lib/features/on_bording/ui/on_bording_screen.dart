@@ -28,11 +28,11 @@ class OnBordingScreen extends StatelessWidget {
                 style: TextStyles.font12darkGrayRegular.copyWith(height: 1.2.h),
                 textAlign: TextAlign.center,
               ),
-              verticalSpace(43),
+              verticalSpace(30),
               AppTextButton(
                 bottonText: "Getting Started",
                 onPressed: () {
-                  context.go(Routes.whoAreYouScreen);
+                  context.go(Routes.navigationMenu);
                 },
               )
             ],

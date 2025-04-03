@@ -8,7 +8,8 @@ part of 'sign_up_req_model.dart';
 
 SignUpReqModel _$SignUpReqModelFromJson(Map<String, dynamic> json) =>
     SignUpReqModel(
-      (json['id'] as num).toInt(),
+      profilePicturePath: json['profilePicturePath'] as String?,
+      disabilityProofPath: json['disabilityProofPath'] as String?,
       firstName: json['firstName'] as String,
       lastName: json['lastName'] as String,
       phoneNumber: json['phoneNumber'] as String,
@@ -17,12 +18,12 @@ SignUpReqModel _$SignUpReqModelFromJson(Map<String, dynamic> json) =>
       password: json['password'] as String,
       age: (json['age'] as num).toInt(),
       gender: json['gender'] as String,
-      imagePath: json['imagePath'] as String,
+      address: json['address'] as String,
+      hasMobilityDisability: json['hasMobilityDisability'] as bool,
     );
 
 Map<String, dynamic> _$SignUpReqModelToJson(SignUpReqModel instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'phoneNumber': instance.phoneNumber,
@@ -30,6 +31,9 @@ Map<String, dynamic> _$SignUpReqModelToJson(SignUpReqModel instance) =>
       'email': instance.email,
       'password': instance.password,
       'age': instance.age,
+      'address': instance.address,
       'gender': instance.gender,
-      'imagePath': instance.imagePath,
+      'profilePicturePath': instance.profilePicturePath,
+      'hasMobilityDisability': instance.hasMobilityDisability,
+      'disabilityProofPath': instance.disabilityProofPath,
     };
