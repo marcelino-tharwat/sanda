@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sanda/core/theming/colors.dart';
 import 'package:sanda/core/theming/styles.dart';
+import 'package:sanda/features/auth/sign_up/logic/sign_up_cubit.dart';
 
 class CheckIfDisabled extends StatelessWidget {
-  final ValueNotifier<bool> isDisabledNotifier;
 
-  const CheckIfDisabled({super.key, required this.isDisabledNotifier});
+  const CheckIfDisabled({super.key,});
 
   @override
   Widget build(BuildContext context) {
@@ -13,13 +14,13 @@ class CheckIfDisabled extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         ValueListenableBuilder<bool>(
-          valueListenable: isDisabledNotifier,
+          valueListenable: context.read<SignUpCubit>().isDisabledNotifier,
           builder: (context, isDisabledValue, child) {
             return Checkbox(
               value: isDisabledValue,
               activeColor: ColorsManager.mainBlue,
               onChanged: (newValue) {
-                isDisabledNotifier.value = newValue!;
+                context.read<SignUpCubit>().isDisabledNotifier.value = newValue!;
               },
             );
           },

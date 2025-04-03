@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sanda/core/helper/app_constant.dart';
 import 'package:sanda/core/helper/spacer.dart';
 import 'package:sanda/core/routing/routes.dart';
 import 'package:sanda/core/theming/styles.dart';
@@ -27,9 +28,12 @@ class LoginScreen extends StatelessWidget {
                   SnackBar(content: Text(state.errorMessage)),
                 );
               } else if (state is LoginSuccess) {
+                userId = state.loginResModel.userId;
+
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("Login Success")),
                 );
+                GoRouter.of(context).pushReplacement(Routes.navigationMenu);
               }
             },
             child: SingleChildScrollView(

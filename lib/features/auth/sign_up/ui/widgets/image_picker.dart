@@ -24,7 +24,7 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
     try {
      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
       if (image != null) {
-        context.read<SignUpCubit>().image = image;
+        // context.read<SignUpCubit>().setDisabilityProofImage() = image;
         print('Image path: ${image.path}');
       } else {
         print('No image selected');

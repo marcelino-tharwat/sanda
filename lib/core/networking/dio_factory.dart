@@ -6,29 +6,31 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 class DioFactory {
   DioFactory._();
   static Dio? dio;
-  static Dio getDio() {
-    Duration timeOut = const Duration(seconds: 30);
-    if (dio == null) {
-      dio = Dio();
-      dio!
-        ..options.connectTimeout = timeOut
-        ..options.receiveTimeout = timeOut;
-      addDioInterCeptor();
-      return dio!;
-    } else {
-      return dio!;
-    }
+static Dio getDio() {
+  Duration timeOut = const Duration(seconds: 30);
+  if (dio == null) {
+    dio = Dio();
+    dio!
+      ..options.connectTimeout = timeOut
+      ..options.receiveTimeout = timeOut;
+    addDioInterCeptor();
+    return dio!;
+  } else {
+    return dio!;
   }
+}
 
-  static void addDioInterCeptor() {
-    dio?.interceptors.add(
-      PrettyDioLogger(requestBody: true, responseHeader: true),
-    );
-  }
+static void addDioInterCeptor() {
+  dio?.interceptors.add(
+    PrettyDioLogger(requestBody: true, responseHeader: true),
+  );
+}
 }
 
 class MyHttpOverrides extends HttpOverrides {
   @override
+/*************  ✨ Codeium Command ⭐  *************/
+/******  0c04276f-7011-4016-b67d-68cd5409231b  *******/
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
       ..badCertificateCallback =

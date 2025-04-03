@@ -8,10 +8,12 @@ part of 'login_res_model.dart';
 
 LoginResModel _$LoginResModelFromJson(Map<String, dynamic> json) =>
     LoginResModel(
+      (json['userId'] as num).toInt(),
       message: json['message'] as String,
     );
 
 Map<String, dynamic> _$LoginResModelToJson(LoginResModel instance) =>
     <String, dynamic>{
       'message': instance.message,
+      'userId': instance.userId,
     };

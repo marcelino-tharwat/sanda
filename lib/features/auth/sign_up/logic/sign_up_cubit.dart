@@ -15,8 +15,11 @@ class SignUpCubit extends Cubit<SignUpState> {
   final TextEditingController firstNameControlr = TextEditingController();
   final TextEditingController lastNameControlr = TextEditingController();
   final TextEditingController ageControlr = TextEditingController();
+  final TextEditingController addressControler = TextEditingController();
+  final ValueNotifier<bool> isDisabledNotifier = ValueNotifier(false);
   String? selectedGender;
-  XFile? image;
+  XFile? _disabilityProofImage;
+  bool? hasMobilityDisability;
 
   final TextEditingController egyptianNationalIDController =
       TextEditingController();
@@ -28,20 +31,35 @@ class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit(
     this.signUpRepo,
   ) : super(SignUpInitial());
+  void setDisabilityProofImage(XFile image) {
+    _disabilityProofImage = image;
+  }
+
   Future<void> emitSignUp() async {
+    if (!formKey.currentState!.validate()) return;
+
     emit(SignUpLoading());
     var response = await signUpRepo.signUp(
-        signUpReqModel: SignUpReqModel(0,
-            firstName: firstNameControlr.text,
-            lastName: lastNameControlr.text,
-            phoneNumber: phoneControlr.text,
-            nationalId: egyptianNationalIDController.text,
-            email: emialControlr.text,
-            password: passwordControlr.text,
-            gender: selectedGender ?? "Not Specified",
-            imagePath: image?.path ?? "",
-            age: int.tryParse(ageControlr.text) ?? 0));
-    response.fold((failure) => emit(SignUpFailed(error: failure.errorMessage)),
-        (signupResModel) => emit(SignUpSuccess()));
+      signUpReqModel: SignUpReqModel(
+        profilePicturePath: "",
+        disabilityProofPath: _disabilityProofImage?.path ?? "",
+        firstName: firstNameControlr.text,
+        lastName: lastNameControlr.text,
+        phoneNumber: phoneControlr.text,
+        nationalId: egyptianNationalIDController.text,
+        email: emialControlr.text,
+        password: passwordControlr.text,
+        gender: selectedGender ?? "Not Specified",
+        age: int.tryParse(ageControlr.text) ?? 0,
+        address: addressControler.text,
+        hasMobilityDisability: isDisabledNotifier.value,
+      ),
+    );
+    response.fold(
+      (failure) => emit(SignUpFailed(error: failure.errorMessage)),
+      (signupResModel) => emit(
+        SignUpSuccess(),
+      ),
+    );
   }
 }

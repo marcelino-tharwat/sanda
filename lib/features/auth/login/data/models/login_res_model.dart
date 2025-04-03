@@ -5,8 +5,9 @@ part 'login_res_model.g.dart';
 @JsonSerializable()
 class LoginResModel {
   final String message;
+  final int userId;
 
-  LoginResModel({required this.message});
+  LoginResModel(this.userId, {required this.message});
 
   factory LoginResModel.fromJson(Map<String, dynamic> json) =>
       _$LoginResModelFromJson(json);

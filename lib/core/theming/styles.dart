@@ -38,7 +38,7 @@ class TextStyles {
     fontWeight: FontWeight.w400,
     color: ColorsManager.darkGray,
   );
-    static TextStyle font14wightGrayBold = TextStyle(
+  static TextStyle font14wightGrayBold = TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeight.w700,
     color: ColorsManager.wightGray,
@@ -58,5 +58,33 @@ class TextStyles {
     fontWeight: FontWeight.w400,
     color: ColorsManager.mainBlue,
   );
-
+  static TextStyle font16MainBlueXtraBold = TextStyle(
+    color: const Color(0xff3A7CA5),
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w800,
+  );
+  static TextStyle font14DarkGray = TextStyle(
+    color: ColorsManager.darkGray,
+    fontSize: 14.sp,
+  );
+  static TextStyle font12GreenXtraBold = TextStyle(
+    color: ColorsManager.green,
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w800,
+  );
+  static TextStyle font14MainBlueXtraBold = TextStyle(
+    color: ColorsManager.mainBlue,
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w800,
+  );
+  static TextStyle font12DarkGraySemiBold = TextStyle(
+    color: ColorsManager.darkGray,
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w700,
+  );
+  static TextStyle font12WhiteRegular = TextStyle(
+    color: ColorsManager.wight,
+    fontSize: 10.sp,
+    fontWeight: FontWeight.w400,
+  );
 }

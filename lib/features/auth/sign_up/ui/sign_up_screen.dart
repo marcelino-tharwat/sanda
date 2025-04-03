@@ -21,18 +21,26 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   bool imageSelected = false; // Tracks image selection
-  final ValueNotifier<bool> isDisabledNotifier =
-      ValueNotifier(false); // Shared state
 
-  Future<void> pickImage() async {
-    final picker = ImagePicker();
-    final image = await picker.pickImage(source: ImageSource.gallery);
+  Future<void> pickImageFromGallery() async {
+    final ImagePicker picker = ImagePicker();
+    if (imageSelected) return; // Prevent re-entry
 
-    setState(() {
+    try {
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
       if (image != null) {
-        imageSelected = true; // Update the state to indicate image is selected
+        // Pass the selected image to the SignUpCubit
+        context.read<SignUpCubit>().setDisabilityProofImage(image);
+        setState(() {
+          imageSelected = true;
+        });
+        print('Image path: ${image.path}');
+      } else {
+        print('No image selected');
       }
-    });
+    } catch (e) {
+      print('Error picking image: $e');
+    }
   }
 
   @override
@@ -51,7 +59,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("Create account Success")),
                 );
-                GoRouter.of(context).push(Routes.loginScreen);
+                GoRouter.of(context).pushReplacement(Routes.loginScreen);
               }
             },
             child: SingleChildScrollView(
@@ -71,46 +79,49 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const InputFiled(),
                   verticalSpace(5),
                   ValueListenableBuilder<bool>(
-                    valueListenable: isDisabledNotifier,
+                    valueListenable:
+                        context.read<SignUpCubit>().isDisabledNotifier,
                     builder: (context, value, child) {
-                      // print(isDisabledNotifier.value);
                       print(value);
-                      return CheckIfDisabled(
-                        isDisabledNotifier: isDisabledNotifier,
-                      );
+                      return const CheckIfDisabled();
                     },
                   ),
                   ValueListenableBuilder<bool>(
-                      valueListenable: isDisabledNotifier,
-                      builder: (context, value, child) {
-                        return isDisabledNotifier.value
-                            ? GestureDetector(
-                                onTap: pickImage,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.file_open_rounded,
+                    valueListenable:
+                        context.read<SignUpCubit>().isDisabledNotifier,
+                    builder: (context, value, child) {
+                      return context
+                              .read<SignUpCubit>()
+                              .isDisabledNotifier
+                              .value
+                          ? GestureDetector(
+                              onTap: pickImageFromGallery,
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.file_open_rounded,
+                                    color: imageSelected
+                                        ? ColorsManager.mainBlue
+                                        : ColorsManager
+                                            .errorRed, // Color based on selection
+                                  ),
+                                  horizontalSpace(5),
+                                  Text(
+                                    imageSelected
+                                        ? 'Image Selected'
+                                        : 'Please select a proof of disability card',
+                                    style: TextStyle(
                                       color: imageSelected
-                                          ? ColorsManager.mainBlue
-                                          : ColorsManager
-                                              .errorRed, // Color based on selection
+                                          ? ColorsManager.darkGray
+                                          : ColorsManager.errorRed,
                                     ),
-                                    horizontalSpace(5),
-                                    Text(
-                                      imageSelected
-                                          ? 'Image Selected'
-                                          : 'Please select a proof of disability card',
-                                      style: TextStyle(
-                                        color: imageSelected
-                                            ? ColorsManager.darkGray
-                                            : ColorsManager.errorRed,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : const SizedBox.shrink();
-                      }),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : const SizedBox.shrink();
+                    },
+                  ),
                   verticalSpace(16),
                   AppTextButton(
                     bottonText: "Create Account",
@@ -120,18 +131,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           .formKey
                           .currentState!
                           .validate();
-                      if (!isValid || !imageSelected) {
-                        if (!imageSelected) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
+                      if (!isValid) {
+                        if (context
+                                .read<SignUpCubit>()
+                                .isDisabledNotifier
+                                .value ==
+                            true) {
+                          if (!imageSelected) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
                                 content:
-                                    Text("Please select an image to proceed")),
-                          );
+                                    Text("Please select an image to proceed"),
+                              ),
+                            );
+                          }
                         }
                         return;
                       } else {
-                        final isDisabled =
-                            isDisabledNotifier.value; // Read the value
                         context.read<SignUpCubit>().emitSignUp();
                       }
                     },
