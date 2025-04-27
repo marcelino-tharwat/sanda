@@ -27,7 +27,7 @@ class WelcomeIcons extends StatelessWidget {
         // Profile Picture Icon
         CircleAvatar(
           radius: 16,
-          backgroundImage: const AssetImage(
+          backgroundImage:  AssetImage(
               'assets/icons/profile-pic.jpg'), // Path to profile image
         ),
       ],

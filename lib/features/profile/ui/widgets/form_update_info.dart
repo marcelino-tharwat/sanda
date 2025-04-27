@@ -4,7 +4,7 @@ import 'package:sanda/core/helper/spacer.dart';
 import 'package:sanda/core/regex/app_regex.dart';
 import 'package:sanda/core/widgets/app_text_button.dart';
 import 'package:sanda/features/profile/data/models/user_res.dart';
-import 'package:sanda/features/profile/logic/profile_data_cubit.dart';
+import 'package:sanda/features/profile/logic/cubit/profile_cubit/profile_data_cubit.dart';
 import 'package:sanda/features/profile/ui/widgets/user_info_widget.dart';
 
 class FormUpdateInfo extends StatelessWidget {

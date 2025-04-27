@@ -13,7 +13,7 @@ import 'package:sanda/features/home/ui/widgets/category_grid.dart';
 import 'package:sanda/features/home/ui/widgets/special_offer_container.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -22,8 +22,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final HomeViewModel viewModel = HomeViewModel();
   final _serchedTextController = TextEditingController();
-  late List<CategoryModel> categoriesList;
-  List<CategoryModel> _serchedItems = []; // Initialize directly here
+  late List<ProductOrServiceModel> categoriesList;
+  List<ProductOrServiceModel> _serchedItems = []; // Initialize directly here
   bool _isSearching = false; // Track if the user is searching
 
   @override
@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: 'Search...',
-                      hintStyle: TextStyles.font14DarkGray,
+                      hintStyle: TextStyles.font14DarkGrayRegular,
                       prefixIcon: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.w),
                         child: ColorFiltered(
@@ -89,11 +89,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         _isSearching = value.isNotEmpty; // Update search state
                         if (_isSearching) {
                           _serchedItems = categoriesList
-                              .where((item) =>
-                                  item.name.toLowerCase().contains(value.toLowerCase()))
+                              .where((item) => item.name
+                                  .toLowerCase()
+                                  .contains(value.toLowerCase()))
                               .toList();
                         } else {
-                          _serchedItems = []; // Clear search results if the search bar is empty
+                          _serchedItems =
+                              []; // Clear search results if the search bar is empty
                         }
                       });
                     },
@@ -122,7 +124,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       return const Center(child: CircularProgressIndicator());
                     } else if (state is CategorySuccess) {
                       categoriesList = state.categoryList;
-
                       // Display search results or "Not Found" message
                       if (_isSearching) {
                         if (_serchedItems.isEmpty) {
@@ -141,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         return CategoryGrid(categoriesList: categoriesList);
                       }
                     } else if (state is CategoryFailure) {
-                      return const Center(child: Text("Error loading categories"));
+                      return Center(child: Text(state.errorMessage.toString()));
                     } else {
                       return const CircularProgressIndicator();
                     }

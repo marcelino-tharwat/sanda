@@ -10,9 +10,7 @@ class HomeViewModel {
       Category(image: "assets/images/homeassistance.jpg", title: "Home Assistance"),
       Category(image: "assets/images/outdoor.jpg", title: "Outdoor"),
       Category(image: "assets/images/personalcare.jpg", title: "Personal care"),
-      Category(image: "assets/images/groceries.jpg", title: "Groceries"),
-      Category(image: "assets/images/supermarket.jpg", title: "Supermarket"),
-      Category(image: "assets/images/pharmacy.jpg", title: "Pharmacy"),
+      Category(image: "assets/images/Hypermarket.JPG", title: "Hyper Market"),
     ];
   }
 

@@ -1,11 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sanda/core/helper/spacer.dart';
 import 'package:sanda/core/theming/colors.dart';
 import 'package:sanda/core/theming/styles.dart';
+import 'package:sanda/features/cart/data/model/product_card_model.dart';
+import 'package:sanda/features/cart/logic/cart_cubit.dart';
 
 class CartButtons extends StatefulWidget {
-  const CartButtons({
+  ProductCardModel productCardModel;
+  double total;
+  CartButtons(
+    this.total,
+    this.productCardModel, {
     super.key,
   });
 
@@ -14,14 +21,20 @@ class CartButtons extends StatefulWidget {
 }
 
 class _CartButtonsState extends State<CartButtons> {
-  int count = 0;
+  // int count = 0;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            context
+                .read<CartCubit>()
+                .removeFromCart(widget.productCardModel.id, 1);
+            context.read<CartCubit>().getCart(1);
+            setState(() {});
+          },
           icon: const Icon(CupertinoIcons.trash),
           color: ColorsManager.mainBlue,
         ),
@@ -31,8 +44,8 @@ class _CartButtonsState extends State<CartButtons> {
             IconButton(
               onPressed: () {
                 setState(() {
-                  if (count > 0) {
-                    count--;
+                  if (widget.productCardModel.quantity > 0) {
+                    widget.productCardModel.quantity--;
                   }
                 });
               },
@@ -41,14 +54,14 @@ class _CartButtonsState extends State<CartButtons> {
             ),
             horizontalSpace(6),
             Text(
-              count.toString(),
+              widget.productCardModel.quantity.toString(),
               style: TextStyles.font12mainBlueRegular,
             ),
             horizontalSpace(6),
             IconButton(
               onPressed: () {
                 setState(() {
-                  count++;
+                  widget.productCardModel.quantity++;
                 });
               },
               icon: const Icon(

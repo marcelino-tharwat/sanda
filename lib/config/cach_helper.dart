@@ -1,4 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:sanda/features/profile/data/models/address_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheHelper {
@@ -45,6 +46,20 @@ class CacheHelper {
 
   Future<void> clearAllData() async {
     await prefs.clear();
+  }
+
+  Future<void> saveAddressList(List<AddressModel> addresses) async {
+    List<String> addressJsonList = addresses.map((e) => e.toJson()).toList();
+    await prefs.setStringList('addresses', addressJsonList);
+  }
+
+  List<AddressModel> getAddressList() {
+    List<String>? addressJsonList = prefs.getStringList('addresses');
+    if (addressJsonList != null) {
+      return addressJsonList.map((e) => AddressModel.fromJson(e)).toList();
+    } else {
+      return [];
+    }
   }
 
   Future<void> setSecureData(

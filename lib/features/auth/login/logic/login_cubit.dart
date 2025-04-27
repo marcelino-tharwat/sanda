@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:sanda/core/helper/app_constant.dart';
 import 'package:sanda/features/auth/login/data/models/login_req_model.dart';
 import 'package:sanda/features/auth/login/data/models/login_res_model.dart';
 import 'package:sanda/features/auth/login/data/repo/login_repo.dart';

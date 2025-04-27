@@ -7,6 +7,7 @@ import 'package:sanda/features/auth/login/data/models/login_req_model.dart';
 import 'package:sanda/features/auth/login/data/models/login_res_model.dart';
 import 'package:sanda/features/auth/sign_up/data/models/sign_up_req_model.dart';
 import 'package:sanda/features/auth/sign_up/data/models/sign_up_res_model.dart';
+import 'package:sanda/features/cart/data/model/product_card_model.dart';
 import 'package:sanda/features/home/data/model/category_model.dart';
 import 'package:sanda/features/profile/data/models/user_res.dart';
 
@@ -37,8 +38,28 @@ abstract class ApiService {
   Future<UserResponse> updateProfileData(
       @Path('id') int id, @Body() UserResponse userResponse);
 
-  //get Category
+  //get service by Category
   @GET(ApiConstant.category)
-  Future<List<CategoryModel>> getCategory(
+  Future<List<ProductOrServiceModel>> getServiceByCategory(
       @Path('categoryName') String categoryName);
+
+  //get product by Category
+  @GET(ApiConstant.allProduct)
+  Future<List<ProductOrServiceModel>> getAllProduct(
+);
+
+  ///cartServices
+
+  // addToCart
+  @POST(ApiConstant.addToCart)
+  Future<String> addToCart(
+      @Path("productId") int productId, @Path("userId") int userId);
+
+  //deleteFromCart
+  @DELETE(ApiConstant.removeFromCart)
+  Future<String> removeFromCart(
+      @Path("productId") int productId, @Path("userId") int userId);
+  //getcart
+  @GET(ApiConstant.getCart)
+  Future<List<ProductCardModel>> getCart(@Path("userId") int userId);
 }

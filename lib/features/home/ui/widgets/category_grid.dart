@@ -9,7 +9,7 @@ import 'package:sanda/features/home/ui/widgets/dialog_card.dart';
 import 'package:sanda/features/home/ui/widgets/heart_icon.dart';
 
 class CategoryGrid extends StatelessWidget {
-  final List<CategoryModel> categoriesList;
+  final List<ProductOrServiceModel> categoriesList;
   const CategoryGrid({
     super.key,
     required this.categoriesList,
@@ -37,10 +37,6 @@ class CategoryGrid extends StatelessWidget {
           ),
           itemCount: categoriesList.length,
           itemBuilder: (context, index) {
-            // Determine if the current category is a product
-            bool isProduct = categoriesList[index].category == "Groceries" ||
-                categoriesList[index].category == "Supermarket" ||
-                categoriesList[index].category == "Pharmacy";
 
             return Container(
               width: 150.w,
@@ -111,13 +107,35 @@ class CategoryGrid extends StatelessWidget {
                           color: ColorsManager.mainBlue,
                           borderRadius: BorderRadius.circular(8.r),
                         ),
-                        child: isProduct
-                            ? Icon(
-                                Icons.shopping_cart,
-                                color: Colors.white,
-                                size: 12.r,
-                              )
-                            : GestureDetector(
+                        child: 
+                        // isProduct
+                        //     ? GestureDetector(
+                        //         onTap: () {
+                        //           context
+                        //               .read<CartCubit>()
+                        //               .addToCart(categoriesList[index].id, 1);
+                        //           ScaffoldMessenger.of(context).showSnackBar(
+                        //             SnackBar(
+                        //               content: Text(
+                        //                   '${categoriesList[index].name} added to cart'),
+                        //               backgroundColor: ColorsManager.mainBlue,
+                        //               behavior: SnackBarBehavior.floating,
+                        //               shape: RoundedRectangleBorder(
+                        //                 borderRadius:
+                        //                     BorderRadius.circular(10.r),
+                        //               ),
+                        //               duration: const Duration(seconds: 2),
+                        //             ),
+                        //           );
+                        //         },
+                        //         child: Icon(
+                        //           Icons.shopping_cart,
+                        //           color: Colors.white,
+                        //           size: 12.r,
+                        //         ),
+                        //       )
+                            // :
+                             GestureDetector(
                                 onTap: () {
                                   showModalBottomSheet(
                                     backgroundColor: ColorsManager.wight,

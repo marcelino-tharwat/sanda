@@ -20,9 +20,11 @@ class CategoryList extends StatelessWidget {
         itemCount: categories.length,
         itemBuilder: (context, index) {
           return GestureDetector(
-            onTap: () => context
-                .read<CategoryCubit>()
-                .getCategory(categoryName: categories[index].title),
+            onTap: () => index < 3
+                ? context
+                    .read<CategoryCubit>()
+                    .getServiceByCategory(categoryName: categories[index].title)
+                : context.read<CategoryCubit>().getAllProduct(),
             child: Padding(
               padding: index == 0
                   ? const EdgeInsets.only(left: 0)

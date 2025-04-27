@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sanda/core/helper/spacer.dart';
-import 'package:sanda/features/profile/logic/profile_data_cubit.dart';
+import 'package:sanda/features/profile/logic/cubit/profile_cubit/profile_data_cubit.dart';
 import 'package:sanda/features/profile/ui/widgets/form_update_info.dart';
 import 'package:sanda/features/profile/ui/widgets/profile_picture_widget.dart';
 

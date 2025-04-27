@@ -24,25 +24,22 @@ class UserInfoWidget extends StatelessWidget {
         children: [
           Center(
             child: TextFormField(
-              controller: controller, // ربط الـ controller
+              controller: controller, 
               decoration: InputDecoration(
                 labelText: labelText,
-                // border: const OutlineInputBorder(),
               ),
               validator: validator,
             ),
 
           ),
-          // Position the icon at the far right of the screen
           Positioned(
-            right: 10, // Add a small offset from the right edge
+            right: 10, 
             top: 0,
             bottom: 0,
             child: Align(
               alignment: Alignment.centerRight,
               child: IconButton(
                 onPressed: () {
-                  // Handle edit action
                 },
                 icon: const Icon(LucideIcons.edit2),
                 color: ColorsManager.mainBlue,
