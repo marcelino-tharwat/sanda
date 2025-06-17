@@ -1,47 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sanda/core/theming/colors.dart';
+import 'package:sanda/features/favorite/data/model/fav_list_res_model.dart';
+import 'package:sanda/features/favorite/logic/fav_cubit.dart';
+import 'package:sanda/features/home/data/model/category_model.dart';
+// ... (باقي الـ imports)
 
-class HeartIcon extends StatefulWidget {
-  const HeartIcon({super.key});
+class HeartIcon extends StatelessWidget {
+  final dynamic service;
 
-  @override
-  _HeartIconState createState() => _HeartIconState();
-}
-
-class _HeartIconState extends State<HeartIcon> {
-  bool isLiked = false; // Track whether the heart is "liked" or not
+  const HeartIcon(this.service, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 4.h,
-      right: 4.w,
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            isLiked = !isLiked; // Toggle the liked state on press
-          });
-        },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300), // Transition duration
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.white.withOpacity(0.3),
+    // ID الخدمة الأصلي (من ProductOrServiceModel أو FavListResModel)
+    final int serviceId = service.id; 
+
+    return BlocBuilder<FavCubit, List<FavListResModel>>(
+      // --- هنا التصحيح الحاسم ---
+      buildWhen: (previousState, currentState) {
+        // ابحث باستخدام 'serviceId' في كلا الحالتين
+        final wasLiked = previousState.any((s) => s.serviceId == serviceId);
+        final isNowLiked = currentState.any((s) => s.serviceId == serviceId);
+        // أعد البناء فقط إذا تغيرت حالة الإعجاب
+        return wasLiked != isNowLiked;
+      },
+      builder: (context, favList) {
+        // استخدم نفس المنطق الصحيح هنا
+        final bool isLiked = favList.any((favItem) => favItem.serviceId == serviceId);
+        
+        // يمكنك إضافة print هنا للتأكد أثناء الاختبار
+        // print("Service ID: $serviceId | Is Liked: $isLiked");
+
+        return GestureDetector(
+          onTap: () {
+            late FavListResModel favItem;
+
+            if (service is ProductOrServiceModel) {
+              favItem = FavListResModel(
+                // يمكنك استخدام serviceId كـ id مؤقتاً إذا لم يكن هناك استخدام آخر له
+                id: service.id, 
+                serviceId: service.id, 
+                serviceName: service.name,
+                serviceImage: service.image,
+                serviceCategory: service.category,
+                servicePrice: service.price,
+                addedDate: DateTime.now(),
+              );
+            } else if (service is FavListResModel) {
+              favItem = service;
+            } else {
+              // هذا السطر جيد للحماية من الأخطاء المستقبلية
+              throw Exception("Unsupported type passed to HeartIcon: ${service.runtimeType}");
+            }
+            context.read<FavCubit>().toggleFavoriteStatus(favItem);
+          },
+          child: Icon(
+            isLiked ? Icons.favorite : Icons.favorite_border,
+            color: isLiked ? ColorsManager.mainBlue : const Color(0xff3A7CA5),
+            size: 23.sp,
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300), // Set the transition time here
-              child: Icon(
-                key: ValueKey<bool>(isLiked), // Ensure the widget changes when `isLiked` changes
-                isLiked ? Icons.favorite : Icons.favorite_border, // Filled when liked, outlined otherwise
-                color: isLiked ? Colors.red : const Color(0xff3A7CA5), // Red when liked, else default color
-                size: 23.sp, // Adjust size using ScreenUtil
-              ),
-            ),
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -1,6 +1,3 @@
-import 'package:sanda/features/paymnet/ui/payment_method_screen.dart';
-import 'package:sanda/features/profile/ui/add_shipping_address_screen.dart';
-import 'package:sanda/features/profile/ui/choose_shipping_address.dart';
 
 class Routes {
   static const loginScreen = '/loginScreen';
@@ -15,5 +12,7 @@ class Routes {
   static const chooseShippingAddress = '/chooseShippingAddress';
   static const userSettings = '/userSettings';
   static const paymentMethodScreen = '/paymentMethodScreen';
+    static const orderDetailesScreen = '/orderDetailesScreen';
+
 
 }

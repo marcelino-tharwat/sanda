@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sanda/core/helper/spacer.dart';
 import 'package:sanda/core/theming/styles.dart';
 import 'package:sanda/features/home/data/model/category.dart';
-import 'package:sanda/features/home/logic/category_cubit.dart';
+import 'package:sanda/features/home/logic/category/category_cubit.dart';
 
 class CategoryList extends StatelessWidget {
   final List<Category> categories;
@@ -35,7 +35,9 @@ class CategoryList extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 30.w,
-                      backgroundImage: AssetImage(categories[index].image),
+                      backgroundImage: AssetImage(
+                        categories[index].image,
+                      ),
                     ),
                     verticalSpace(10.h),
                     Text(

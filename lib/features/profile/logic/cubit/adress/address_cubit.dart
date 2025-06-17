@@ -11,35 +11,30 @@ class AddressCubit extends Cubit<AddressState> {
   List<AddressModel> addresses = [];
   AddressModel? selectedAddress;
 
-  final fullNameController = TextEditingController();
   final addressController = TextEditingController();
   final cityController = TextEditingController();
   final zipCodeController = TextEditingController();
-  final countryController = TextEditingController();
 
   void loadAddresses() {
     addresses = CacheHelper().getAddressList();
     emit(AddressLoaded(addresses));
   }
-
   Future<void> saveOrUpdateAddress({AddressModel? existingAddress}) async {
     AddressModel newAddress = AddressModel(
-      fullName: fullNameController.text,
       address: addressController.text,
       city: cityController.text,
       zipCode: zipCodeController.text,
-      country: countryController.text,
     );
 
     List<AddressModel> currentAddresses = CacheHelper().getAddressList();
 
     if (existingAddress != null) {
       int index = currentAddresses.indexWhere((e) =>
-          e.fullName == existingAddress.fullName &&
           e.address == existingAddress.address &&
           e.city == existingAddress.city &&
-          e.zipCode == existingAddress.zipCode &&
-          e.country == existingAddress.country);
+          e.zipCode == existingAddress.zipCode 
+        )
+        ;
 
       if (index != -1) {
         currentAddresses[index] = newAddress;
@@ -59,11 +54,10 @@ class AddressCubit extends Cubit<AddressState> {
   void deleteAddress(AddressModel address) async {
     List<AddressModel> currentAddresses = CacheHelper().getAddressList();
     currentAddresses.removeWhere((e) =>
-        e.fullName == address.fullName &&
         e.address == address.address &&
         e.city == address.city &&
-        e.zipCode == address.zipCode &&
-        e.country == address.country);
+        e.zipCode == address.zipCode 
+       );
     await CacheHelper().saveAddressList(currentAddresses);
     loadAddresses();
   }

@@ -4,14 +4,15 @@ import 'package:sanda/core/networking/api_error_handler.dart';
 import 'package:sanda/core/networking/api_service.dart';
 import 'package:sanda/features/profile/data/models/user_res.dart';
 
-class ProfileDataRepo {
+
+class UserDataRepo {
   final ApiService apiService;
 
-  ProfileDataRepo({required this.apiService});
+  UserDataRepo({required this.apiService});
   Future<Either<ApiErrorHandler, UserResponse>> profileData(
       {required int id}) async {
     try {
-      var response = await apiService.profileData(id); // تمرير الـ id فقط
+      var response = await apiService.userData(id); // تمرير الـ id فقط
       return Right(response);
     } catch (e) {
       if (e is DioException) {

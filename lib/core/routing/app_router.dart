@@ -5,16 +5,22 @@ import 'package:sanda/core/di/dependency_injection.dart';
 import 'package:sanda/core/helper/app_constant.dart';
 import 'package:sanda/core/routing/routes.dart';
 import 'package:sanda/features/auth/forget_password/ui/forget_password_screen.dart';
+import 'package:sanda/features/auth/login/data/models/login_res_model.dart';
 import 'package:sanda/features/auth/login/logic/login_cubit.dart';
 import 'package:sanda/features/auth/login/ui/login_screen.dart';
 import 'package:sanda/features/auth/otp/ui/otp_screen.dart';
 import 'package:sanda/features/auth/sign_up/logic/sign_up_cubit.dart';
 import 'package:sanda/features/auth/sign_up/ui/sign_up_screen.dart';
+import 'package:sanda/features/home/logic/order/order_cubit.dart';
+import 'package:sanda/features/on_bording/ui/on_bording_screen.dart';
+import 'package:sanda/features/order/data/model/user_order_res_model.dart';
+import 'package:sanda/features/order/ui/order_details_screen.dart';
+import 'package:sanda/features/paymnet/data/logic/cubit/payment_cubit.dart';
 import 'package:sanda/features/paymnet/ui/payment_method_screen.dart';
 import 'package:sanda/features/profile/data/models/address_model.dart';
 import 'package:sanda/features/profile/data/models/user_profile_req.dart';
 import 'package:sanda/features/profile/logic/cubit/adress/address_cubit.dart';
-import 'package:sanda/features/profile/logic/cubit/profile_cubit/profile_data_cubit.dart';
+import 'package:sanda/features/profile/logic/cubit/user_cubit/user_data_cubit.dart';
 import 'package:sanda/features/profile/ui/choose_shipping_address.dart';
 import 'package:sanda/features/profile/ui/profile_screen.dart';
 import 'package:sanda/features/profile/ui/add_shipping_address_screen.dart';
@@ -28,7 +34,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const UserSettingScreen();
+        return const OnBordingScreen();
         // OnBordingScreen();
       },
       routes: <RouteBase>[
@@ -66,9 +72,8 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: Routes.profileScreen,
           builder: (BuildContext context, GoRouterState state) {
-            return BlocProvider(
-              create: (context) => getIt<ProfileDataCubit>()
-                ..getProfileData(DataProfileRequest(userId), id: userId),
+            return BlocProvider.value(
+              value: getIt<UserDataCubit>(),
               child: const ProfileScreen(),
             );
           },
@@ -85,6 +90,18 @@ final GoRouter router = GoRouter(
             return BlocProvider(
               create: (context) => AddressCubit(),
               child: const ChooseShippingAddress(),
+            );
+          },
+        ),
+        GoRoute(
+          path: Routes.orderDetailesScreen,
+          pageBuilder: (context, state) {
+            final order = state.extra as UserOrderResModel;
+            return MaterialPage(
+              child: BlocProvider.value(
+                value: getIt<OrderCubit>(),
+                child: OrderDetailesScreen(order: order),
+              ),
             );
           },
         ),
@@ -113,13 +130,29 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: Routes.navigationMenu,
           builder: (BuildContext context, GoRouterState state) {
-            return const NavigationMenu();
+            final loginResponse = state.extra as LoginResModel;
+            if (loginResponse == null) {
+              // يمكنك عرض ويدجت خطأ هنا أو إعادة التوجيه
+              return const Scaffold(
+                body: Center(
+                  child: Text('Error: Missing user data.'),
+                ),
+              );
+            }
+            return BlocProvider.value(
+              value: getIt<UserDataCubit>()
+                ..getUserData(id: loginResponse.userId),
+              child: const NavigationMenu(),
+            );
           },
         ),
         GoRoute(
           path: Routes.paymentMethodScreen,
           builder: (BuildContext context, GoRouterState state) {
-            return  PaymentMethodScreen();
+            return BlocProvider(
+              create: (context) => PaymentCubit()..getAllPaymentCard(),
+              child: const PaymentMethodScreen(),
+            );
           },
         ),
       ],

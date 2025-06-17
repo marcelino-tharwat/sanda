@@ -20,7 +20,9 @@ class SettingListItemsColumn extends StatelessWidget {
               backgroundColor: const Color(0xFFE1E3F9),
               iconSize: 24,
               title: 'My Profile',
-              onTap: () {}),
+              onTap: () {
+                GoRouter.of(context).push(Routes.profileScreen);
+              }),
           SettingListItem(
               iconPath: 'assets/icons/location_on.png',
               iconColor: Colors.black,

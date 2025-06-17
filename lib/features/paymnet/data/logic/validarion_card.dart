@@ -1,26 +1,5 @@
-
-import 'package:sanda/features/paymnet/data/model/payment_view_model.dart';
-
 class CardValidator {
-  // Check if the entered card matches any in our static database
-  static bool checkStaticCardData(
-    String cardNumber,
-    String expiryDate,
-    String cardHolderName,
-    String cvvCode,
-  ) {
-    String normalizedCardNumber = cardNumber.replaceAll(' ', '');
-    for (var card in CardDatabase.validCards) {
-      String validCardNumber = card.cardNumber.replaceAll(' ', '');
-      if (normalizedCardNumber == validCardNumber &&
-          expiryDate == card.expiryDate &&
-          cardHolderName.toLowerCase() == card.cardHolderName.toLowerCase() &&
-          cvvCode == card.cvv) {
-        return true;
-      }
-    }
-    return false;
-  }
+
 
   static bool validateCard(
     String cardNumber,
@@ -28,12 +7,7 @@ class CardValidator {
     String cardHolderName,
     String cvvCode,
   ) {
-    if (cardNumber.isEmpty ||
-        expiryDate.isEmpty ||
-        cardHolderName.isEmpty ||
-        cvvCode.isEmpty) {
-      return false;
-    }
+   
 
     bool isLuhnValid = isValidCardNumber(cardNumber.replaceAll(' ', ''));
 
@@ -45,7 +19,6 @@ class CardValidator {
   }
 
   static bool isValidCardNumber(String cardNumber) {
-    if (cardNumber.isEmpty) return false;
 
     String input = cardNumber.replaceAll(RegExp(r'\D'), '');
 

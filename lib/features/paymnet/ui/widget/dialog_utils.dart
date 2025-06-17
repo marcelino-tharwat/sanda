@@ -11,7 +11,8 @@ class DialogUtils {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.check_circle, color: ColorsManager.green, size: 60),
+              const Icon(Icons.check_circle,
+                  color: ColorsManager.green, size: 60),
               const SizedBox(height: 16),
               const Text(
                 'Payment completed successfully.',
@@ -19,7 +20,7 @@ class DialogUtils {
               ),
               const SizedBox(height: 16),
               Text(
-                'Card ending in ${cardNumber.substring(cardNumber.length - 4)}',
+                'Card ending in ${cardNumber.length >= 4 ? cardNumber.substring(cardNumber.length - 4) : cardNumber}',
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ],
@@ -70,19 +71,18 @@ class DialogUtils {
   static void showCardNotRecognizedDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: const Text('Card Not Recognized'),
-            content: const Text(
-              'This card passed basic validation but is not in our test database. Please use one of the provided test cards.',
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('OK'),
-              ),
-            ],
+      builder: (context) => AlertDialog(
+        title: const Text('Card Not Recognized'),
+        content: const Text(
+          'This card passed basic validation but is not in our test database. Please use one of the provided test cards.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
           ),
+        ],
+      ),
     );
   }
 }

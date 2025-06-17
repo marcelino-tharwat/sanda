@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sanda/config/cach_helper.dart';
 import 'package:sanda/core/helper/spacer.dart';
+import 'package:sanda/core/theming/colors.dart';
 import 'package:sanda/core/theming/font_weight_helper.dart';
 import 'package:sanda/core/theming/styles.dart';
 import 'package:sanda/core/widgets/app_form_text_filed.dart';
@@ -18,15 +20,11 @@ class AddShippingAddressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<AddressCubit>();
-
     if (addressModel != null) {
-      cubit.fullNameController.text = addressModel!.fullName;
       cubit.addressController.text = addressModel!.address;
       cubit.cityController.text = addressModel!.city;
       cubit.zipCodeController.text = addressModel!.zipCode;
-      cubit.countryController.text = addressModel!.country;
     }
-
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -37,6 +35,8 @@ class AddShippingAddressScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     AppBar(
+                              leading: const BackButton(color: ColorsManager.mainBlue,),
+
                       backgroundColor: Colors.transparent,
                       titleTextStyle: TextStyles.font24mainBlueBold
                           .copyWith(fontWeight: FontWeightHelper.extra_bold),
@@ -47,10 +47,7 @@ class AddShippingAddressScreen extends StatelessWidget {
                       ),
                     ),
                     verticalSpace(20),
-                    AppFormTextFiled(
-                      hintText: 'Full Name',
-                      controller: cubit.fullNameController,
-                    ),
+
                     verticalSpace(20),
                     AppFormTextFiled(
                       hintText: 'Address',
@@ -67,16 +64,19 @@ class AddShippingAddressScreen extends StatelessWidget {
                         controller: cubit.zipCodeController,
                         keyboardType: TextInputType.number),
                     verticalSpace(20),
-                    AppFormTextFiled(
-                      hintText: 'Country',
-                      controller: cubit.countryController,
-                    ),
+
                     verticalSpace(20),
                     AppTextButton(
                       bottonText: addressModel == null
                           ? 'Save Address'
                           : 'Update Address',
                       onPressed: () async {
+                        AddressModel defaultaddressModel = AddressModel(
+                          address: cubit.addressController.text,
+                          city: cubit.cityController.text,
+                          zipCode: cubit.zipCodeController.text
+                        );
+                        CacheHelper.saveDefaultAddress( defaultaddressModel);
                         await cubit.saveOrUpdateAddress(
                             existingAddress: addressModel);
                         GoRouter.of(context).pop();

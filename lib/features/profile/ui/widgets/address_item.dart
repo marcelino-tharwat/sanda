@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sanda/config/cach_helper.dart';
 import 'package:sanda/core/helper/spacer.dart';
 import 'package:sanda/core/routing/routes.dart';
 import 'package:sanda/core/theming/colors.dart';
@@ -45,11 +44,7 @@ class AddressItem extends StatelessWidget {
                 children: [
                   ListTile(
                     isThreeLine: true,
-                    title: Text(
-                      addressModel.fullName,
-                      style: TextStyles.font14DarkGrayBold
-                          .copyWith(color: ColorsManager.darkGray),
-                    ),
+
                     subtitle: Text(
                       "${addressModel.address} ${addressModel.city} ${addressModel.zipCode}",
                       style: TextStyles.font14GrayRegular,

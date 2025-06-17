@@ -11,4 +11,5 @@ void main() async {
   setupGetIt();
   HttpOverrides.global = MyHttpOverrides();
   runApp(const SandaApp());
-}
+
+  }

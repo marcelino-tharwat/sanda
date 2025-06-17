@@ -16,9 +16,8 @@ class OnBordingScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 30.h),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.,
             children: [
               const NameAndLogo(),
               const DisableImageAndText(),
@@ -32,7 +31,8 @@ class OnBordingScreen extends StatelessWidget {
               AppTextButton(
                 bottonText: "Getting Started",
                 onPressed: () {
-                  context.go(Routes.navigationMenu);
+                  // context.go(Routes.navigationMenu);
+                  context.go(Routes.loginScreen);
                 },
               )
             ],

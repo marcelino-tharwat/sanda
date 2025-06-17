@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sanda/config/cach_helper.dart';
 import 'package:sanda/core/helper/spacer.dart';
 import 'package:sanda/core/routing/routes.dart';
 import 'package:sanda/core/theming/colors.dart';
@@ -30,6 +31,8 @@ class _ChooseShippingAddressState extends State<ChooseShippingAddress> {
     var cubit = context.read<AddressCubit>();
     return Scaffold(
       appBar: AppBar(
+                leading: const BackButton(color: ColorsManager.mainBlue,),
+
         centerTitle: true,
         elevation: 0,
         backgroundColor: ColorsManager.wight,
@@ -87,6 +90,9 @@ class _ChooseShippingAddressState extends State<ChooseShippingAddress> {
                                       cubit.addresses[index],
                                   onChanged: (bool? value) {
                                     cubit.selectAddress(cubit.addresses[index]);
+                                    CacheHelper.saveDefaultAddress(
+                                        cubit.addresses[index]);
+                                    print(cubit.addresses[index].toJson());
                                   },
                                   addressModel: cubit.addresses[index],
                                 ),

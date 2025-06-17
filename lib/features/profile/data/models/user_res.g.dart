@@ -9,12 +9,12 @@ part of 'user_res.dart';
 UserResponse _$UserResponseFromJson(Map<String, dynamic> json) => UserResponse(
       id: (json['id'] as num?)?.toInt(),
       firstName: json['firstName'] as String?,
+      lastName: json['lastName'] as String?,
       email: json['email'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
       nationalId: json['nationalId'] as String?,
       gender: json['gender'] as String?,
       age: (json['age'] as num?)?.toInt(),
-      lastName: json['lastName'] as String?,
       dateOfBirth: json['dateOfBirth'] == null
           ? null
           : DateTime.parse(json['dateOfBirth'] as String),
@@ -31,8 +31,8 @@ Map<String, dynamic> _$UserResponseToJson(UserResponse instance) =>
       'email': instance.email,
       'phoneNumber': instance.phoneNumber,
       'nationalId': instance.nationalId,
-      'profilePicturePath': instance.profilePicturePath,
       'address': instance.address,
       'gender': instance.gender,
+      'profilePicturePath': instance.profilePicturePath,
       'dateOfBirth': instance.dateOfBirth?.toIso8601String(),
     };

@@ -1,120 +1,114 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/foundation.dart'; // ضروري لـ kIsWeb
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+import 'package:lucide_icons/lucide_icons.dart';
+import 'package:sanda/core/theming/colors.dart';
+import 'package:sanda/features/profile/logic/cubit/user_cubit/user_data_cubit.dart';
 
-import 'package:sanda/features/profile/logic/cubit/profile_cubit/profile_data_cubit.dart';
-
-class ProfilePictureWidget extends StatefulWidget {
+class ProfilePictureWidget extends StatelessWidget {
   final String? profilePicturePath;
+  final bool isEditing;
 
-  const ProfilePictureWidget({super.key, this.profilePicturePath});
+  const ProfilePictureWidget(
+      {super.key, this.profilePicturePath, required this.isEditing});
 
-  @override
-  _ProfilePictureWidgetState createState() => _ProfilePictureWidgetState();
-}
-
-class _ProfilePictureWidgetState extends State<ProfilePictureWidget> {
-  XFile? _image;
-
-  Future<void> _pickImage() async {
-    final ImagePicker picker = ImagePicker();
+  Future<void> _pickImage(BuildContext context) async {
     try {
-      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      final XFile? image = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 80,
+      );
       if (image != null) {
-        setState(() {
-          _image = image;
-        });
-        context.read<ProfileDataCubit>().updateProfileImage(image);
-        print('Image path: ${image.path}');
-      } else {
-        print('No image selected');
+        context.read<UserDataCubit>().updateProfileImage(image);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Permission Denied. Please enable it in settings.'),
-        ),
-      );
-      print('Error picking image: $e');
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Could not pick image. Please check permissions.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
+  }
+
+  // هذه هي الدالة التي تم إصلاحها
+  ImageProvider _buildImageProvider(BuildContext context) {
+    final cubit = context.read<UserDataCubit>();
+
+    // الحالة 1: المستخدم اختار صورة جديدة للتو (وهي ملف محلي)
+    if (cubit.newProfileImage != null) {
+      return FileImage(File(cubit.newProfileImage!.path));
+    }
+
+    final path = profilePicturePath;
+
+    if (path != null && path.isNotEmpty) {
+      try {
+        // الحالة 2: محاولة فك تشفير السلسلة كـ base64
+        // هذه هي الحالة عندما تأتي الصورة من الخادم
+        final decodedBytes = base64Decode(path);
+        return MemoryImage(decodedBytes);
+      } catch (e) {
+        // إذا فشل فك التشفير، فقد تكون السلسلة رابط URL أو مسار ملف
+        // الحالة 3: التحقق مما إذا كان رابط ويب
+        if (path.startsWith('http')) {
+          return NetworkImage(path);
+        }
+        // الحالة 4: التحقق مما إذا كان مسار ملف (احتياطي)
+        else if (path.startsWith('/')) {
+          return FileImage(File(path));
+        }
+      }
+    }
+
+    // الحالة 5: لا توجد صورة، عرض الصورة الافتراضية
+    return const AssetImage('assets/images/splash.png');
   }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Image.asset(
-          'assets/images/right-side_logo.png',
-          width: 90,
-          height: 90,
-          errorBuilder: (context, error, stackTrace) {
-            return const Icon(Icons.error);
-          },
-        ),
-        Column(
-          children: [
-            Image.asset(
-              'assets/images/upper_logo.png',
-              width: 110,
-              height: 110,
-              errorBuilder: (context, error, stackTrace) {
-                return const Icon(Icons.error); 
-              },
-            ),
-            GestureDetector(
-              onTap: _pickImage, 
-              child: ClipOval(
-                child: checkImageIsFound(),
+    return BlocBuilder<UserDataCubit, UserDataState>(
+      buildWhen: (previous, current) => current is UserDataSuccess,
+      builder: (context, state) {
+        return Center(
+          child: Stack(
+            children: [
+              CircleAvatar(
+                radius: 60,
+                backgroundColor: Colors.grey.shade200,
+                // استدعاء الدالة الذكية الجديدة
+                backgroundImage: _buildImageProvider(context),
               ),
-            ),
-            Image.asset(
-              'assets/images/Ellipse_3.2.png',
-              width: 90,
-              height: 90,
-              errorBuilder: (context, error, stackTrace) {
-                return const Icon(Icons.error);
-              },
-            ),
-          ],
-        ),
-        Image.asset(
-          'assets/images/left_side_logo.png',
-          width: 90,
-          height: 90,
-          errorBuilder: (context, error, stackTrace) {
-            return const Icon(Icons.error); 
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget checkImageIsFound() {
-    if (_image != null) {
-      return CircleAvatar(
-        radius: 60,
-        backgroundImage: FileImage(File(_image!.path)),
-        backgroundColor: Colors.grey.shade300,
-      );
-    }
-    else if (widget.profilePicturePath != null && widget.profilePicturePath!.isNotEmpty) {
-      final file = File(widget.profilePicturePath!);
-      if (file.existsSync()) { 
-        return CircleAvatar(
-          radius: 60,
-          backgroundImage: FileImage(file),
-          backgroundColor: Colors.grey.shade300,
+              isEditing
+                  ? Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: GestureDetector(
+                        onTap: () => _pickImage(context),
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: ColorsManager.mainBlue,
+                          ),
+                          child: const Icon(
+                            LucideIcons.camera,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
+            ],
+          ),
         );
-      } else {
-        print('File does not exist: ${widget.profilePicturePath}');
-      }
-    }
-    return CircleAvatar(
-      radius: 60,
-      backgroundImage: const AssetImage('assets/images/splash.png'),
-      backgroundColor: Colors.grey.shade300,
+      },
     );
   }
 }

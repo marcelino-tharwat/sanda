@@ -2,73 +2,73 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sanda/core/helper/spacer.dart';
 import 'package:sanda/core/regex/app_regex.dart';
-import 'package:sanda/core/widgets/app_text_button.dart';
-import 'package:sanda/features/profile/data/models/user_res.dart';
-import 'package:sanda/features/profile/logic/cubit/profile_cubit/profile_data_cubit.dart';
+import 'package:sanda/features/profile/logic/cubit/user_cubit/user_data_cubit.dart';
 import 'package:sanda/features/profile/ui/widgets/user_info_widget.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class FormUpdateInfo extends StatelessWidget {
-  final UserResponse userResponseModel;
-  const FormUpdateInfo({super.key, required this.userResponseModel});
+  final bool isEditing;
+
+  const FormUpdateInfo({
+    super.key,
+    required this.isEditing,
+  });
 
   @override
   Widget build(BuildContext context) {
+    // الوصول إلى الـ Cubit مرة واحدة لتجنب التكرار
+    final cubit = context.read<UserDataCubit>();
+
     return Form(
-      key: context.read<ProfileDataCubit>().formKey,
+      // استخدام المفتاح من الـ Cubit
+      key: cubit.formKey,
       child: Column(
         children: [
-          UserInfoWidget(
+          ProfileInfoField(
             labelText: "Full Name",
-            controller: context.read<ProfileDataCubit>().firstNameControlr,
-            userResponseModel: userResponseModel,
+            // استخدام الـ controller من الـ Cubit
+            controller: cubit.firstNameController,
+            isEditing: isEditing,
+            icon: LucideIcons.user,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Please enter your full name";
+              }
+              return null;
+            },
           ),
           verticalSpace(20),
-          UserInfoWidget(
+          ProfileInfoField(
             labelText: "Email",
-            controller: context.read<ProfileDataCubit>().emialControlr,
+            controller: cubit.emailController,
+            isEditing: isEditing,
+            icon: LucideIcons.mail,
             validator: (value) {
-              if (value != null || value!.isEmpty) {
-                if (!AppRegex.isValidEmail(value!)) {
-                  return "please enter a valid email";
-                }
+              if (value != null && !AppRegex.isValidEmail(value)) {
+                return "Please enter a valid email";
               }
+              return null;
             },
-            userResponseModel: userResponseModel,
           ),
           verticalSpace(20),
-          UserInfoWidget(
+          ProfileInfoField(
             labelText: "Phone Number",
-            controller: context.read<ProfileDataCubit>().phoneControlr,
+            controller: cubit.phoneController,
+            isEditing: isEditing,
+            icon: LucideIcons.phone,
             validator: (value) {
-              if (value != null || value!.isEmpty) {
-                if (!AppRegex.validPhoneNumber(value!)) {
-                  return "please enter a valid phone number";
-                }
+              if (value != null && !AppRegex.validPhoneNumber(value)) {
+                return "Please enter a valid phone number";
               }
+              return null;
             },
-            userResponseModel: userResponseModel,
           ),
           verticalSpace(20),
-          UserInfoWidget(
+          ProfileInfoField(
             labelText: "Address",
-            controller: context.read<ProfileDataCubit>().addressControler,
-            userResponseModel: userResponseModel,
-          ),
-          verticalSpace(50),
-          AppTextButton(
-            bottonText: "Edit",
-            onPressed: () {
-              bool isValid = context
-                  .read<ProfileDataCubit>()
-                  .formKey
-                  .currentState!
-                  .validate();
-              if (!isValid) {
-                return;
-              } else {
-                context.read<ProfileDataCubit>().updateProfileData();
-              }
-            },
+            controller: cubit.addressController,
+            isEditing: isEditing,
+            icon: LucideIcons.home,
           ),
         ],
       ),

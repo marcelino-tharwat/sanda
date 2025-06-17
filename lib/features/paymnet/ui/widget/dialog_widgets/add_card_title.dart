@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:sanda/core/theming/styles.dart';
 
 class AddCardTitle extends StatelessWidget {
   const AddCardTitle({super.key});
@@ -9,11 +9,7 @@ class AddCardTitle extends StatelessWidget {
     return Center(
       child: Text(
         'Add new card',
-        style: GoogleFonts.inter(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
-        ),
+        style: TextStyles.font20mainBlueBold,
       ),
     );
   }

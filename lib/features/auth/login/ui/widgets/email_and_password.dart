@@ -14,11 +14,11 @@ class EmailAndPassword extends StatefulWidget {
 
 class _EmailAndPasswordState extends State<EmailAndPassword> {
   bool isObscured = true;
-  bool hasLowerCase = false;
-  bool hasUpperCase = false;
-  bool hasnumber = false;
-  bool hasMinLen = false;
-  bool hasSpechailCharacter = false;
+  // bool hasLowerCase = false;
+  // bool hasUpperCase = false;
+  // bool hasnumber = false;
+  // bool hasMinLen = false;
+  // bool hasSpechailCharacter = false;
   late TextEditingController passwordController;
   @override
   void initState() {
@@ -31,12 +31,12 @@ class _EmailAndPasswordState extends State<EmailAndPassword> {
     passwordController.addListener(
       () {
         setState(() {
-          hasLowerCase = AppRegex.hasLowercase(passwordController.text);
-          hasUpperCase = AppRegex.hasUppercase(passwordController.text);
-          hasSpechailCharacter =
-              AppRegex.hasSpecialCharacter(passwordController.text);
-          hasMinLen = AppRegex.hasMinLength(passwordController.text);
-          hasnumber = AppRegex.hasNumber(passwordController.text);
+          // hasLowerCase = AppRegex.hasLowercase(passwordController.text);
+          // hasUpperCase = AppRegex.hasUppercase(passwordController.text);
+          // hasSpechailCharacter =
+          //     AppRegex.hasSpecialCharacter(passwordController.text);
+          // hasMinLen = AppRegex.hasMinLength(passwordController.text);
+          // hasnumber = AppRegex.hasNumber(passwordController.text);
         });
       },
     );
@@ -52,8 +52,9 @@ class _EmailAndPasswordState extends State<EmailAndPassword> {
               controller: context.read<LoginCubit>().emailController,
               validator: (value) {
                 if (value == null ||
-                    value.isEmpty ||
-                    !AppRegex.isValidEmail(value) ) {
+                    value.isEmpty 
+                    // ||!AppRegex.isValidEmail(value) 
+                    ) {
                   return 'please enter a valid email';
                 }
               },
@@ -64,17 +65,18 @@ class _EmailAndPasswordState extends State<EmailAndPassword> {
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'please enter a valid password';
-              } else if (!hasLowerCase) {
-                return 'please enter At leat 1 lowercase letter';
-              } else if (!hasUpperCase) {
-                return 'please enter At leat 1 Uppercase letter';
-              } else if (!hasSpechailCharacter) {
-                return 'please enter At leat 1 Specail Character letter';
-              } else if (!hasnumber) {
-                return 'please enter At leat 1 Number letter';
-              } else if (!hasMinLen) {
-                return 'please enter At leat 8 character long';
-              }
+               } 
+              //else if (!hasLowerCase) {
+              //   return 'please enter At leat 1 lowercase letter';
+              // } else if (!hasUpperCase) {
+              //   return 'please enter At leat 1 Uppercase letter';
+              // } else if (!hasSpechailCharacter) {
+              //   return 'please enter At leat 1 Specail Character letter';
+              // } else if (!hasnumber) {
+              //   return 'please enter At leat 1 Number letter';
+              // } else if (!hasMinLen) {
+              //   return 'please enter At leat 8 character long';
+              // }
             },
             hintText: 'Password',
             isObscured: isObscured,
