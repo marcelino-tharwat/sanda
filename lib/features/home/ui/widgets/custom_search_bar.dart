@@ -14,7 +14,7 @@ class CustomSearchBar extends StatelessWidget {
       child: TextField(
         decoration: InputDecoration(
           hintText: 'Search...',
-          hintStyle: TextStyles.font14DarkGray,
+          hintStyle: TextStyles.font14DarkGrayRegular,
           prefixIcon: Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.w),
             child: ColorFiltered(

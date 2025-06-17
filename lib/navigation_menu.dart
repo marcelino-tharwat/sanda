@@ -4,12 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sanda/core/di/dependency_injection.dart';
 import 'package:sanda/core/helper/app_constant.dart';
 import 'package:sanda/core/theming/colors.dart';
+import 'package:sanda/features/cart/logic/cart_cubit.dart';
 import 'package:sanda/features/cart/ui/cart_screen.dart';
-import 'package:sanda/features/home/logic/category_cubit.dart';
+import 'package:sanda/features/favorite/logic/fav_cubit.dart';
+import 'package:sanda/features/favorite/ui/favorite_screen.dart';
+import 'package:sanda/features/home/logic/category/category_cubit.dart';
+import 'package:sanda/features/home/logic/order/order_cubit.dart';
 import 'package:sanda/features/home/ui/home_screen.dart';
-import 'package:sanda/features/profile/data/models/user_profile_req.dart';
-import 'package:sanda/features/profile/logic/profile_data_cubit.dart';
-import 'package:sanda/features/profile/ui/profile_screen.dart';
+import 'package:sanda/features/order/ui/req_order.dart';
+import 'package:sanda/features/profile/user_settings/ui/user_setting_screen.dart';
 
 class NavigationMenu extends StatefulWidget {
   const NavigationMenu({super.key});
@@ -26,7 +29,14 @@ class _NavigationMenuState extends State<NavigationMenu> {
     return Scaffold(
       body: _getBody(currentIndex),
       bottomNavigationBar: NavigationBar(
+        elevation: 0,
+
+        surfaceTintColor: ColorsManager.mainBlue,
+        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+        // animationDuration: const Duration(milliseconds: 200),
+
         height: 60.h,
+
         selectedIndex: currentIndex,
         onDestinationSelected: (index) {
           setState(() {
@@ -34,7 +44,6 @@ class _NavigationMenuState extends State<NavigationMenu> {
           });
         },
         backgroundColor: Colors.white,
-        elevation: 0,
         indicatorColor: Colors.transparent,
         destinations: [
           NavigationDestination(
@@ -48,25 +57,23 @@ class _NavigationMenuState extends State<NavigationMenu> {
           ),
           NavigationDestination(
             icon: Icon(
-              currentIndex == 1
-                  ? Icons.favorite
-                  : Icons.favorite_border_outlined,
+              currentIndex == 1 ? Icons.article : Icons.article_outlined,
               color: currentIndex == 1
                   ? const Color(0xff3A7CA5)
                   : ColorsManager.mainBlue,
             ),
-            label: "Favorite",
+            label: "Orders",
           ),
           NavigationDestination(
             icon: Icon(
               currentIndex == 2
-                  ? Icons.shopping_cart
-                  : Icons.shopping_cart_outlined,
+                  ? Icons.favorite
+                  : Icons.favorite_border_outlined,
               color: currentIndex == 2
                   ? const Color(0xff3A7CA5)
                   : ColorsManager.mainBlue,
             ),
-            label: "Cart",
+            label: "Favorite",
           ),
           NavigationDestination(
             icon: Icon(
@@ -75,35 +82,36 @@ class _NavigationMenuState extends State<NavigationMenu> {
                   ? const Color(0xff3A7CA5)
                   : ColorsManager.mainBlue,
             ),
-            label: "Person",
+            label: "Profile",
           ),
         ],
       ),
     );
   }
 
-  // Helper method to get the body based on the current index
   Widget _getBody(int index) {
     switch (index) {
       case 0:
         return BlocProvider(
-          create: (context) => getIt<CategoryCubit>()..getCategory(categoryName: "Home Assistance"),
-          child: HomeScreen(),
-        ); // Replace with your HomeScreen widget
-      case 1:
-        return const Center(
-          child: Text("Favorite"),
-        ); // Replace with your FavoriteScreen widget
-      case 2:
-        return const Center(
-          child: CartScreen(),
-        ); // Replace with your CartScreen widget
-      case 3:
-        return BlocProvider(
-          create: (context) => getIt<ProfileDataCubit>()
-            ..getProfileData(DataProfileRequest(userId), id: userId),
-          child: const ProfileScreen(),
+          create: (context) => getIt<CategoryCubit>()
+            ..getServiceByCategory(categoryName: "Home Assistance"),
+          child: const HomeScreen(),
         );
+      case 1:
+        return BlocProvider(
+          create: (context) => getIt<OrderCubit>()..getAllUserOrder(userId),
+          child: const AllUserOdersScreen(),
+        );
+      case 2:
+        return Center(
+          child: BlocProvider(
+            create: (context) =>
+                getIt<FavCubit>(),
+            child: const FavoriteScreen(),
+          ),
+        );
+      case 3:
+        return const UserSettingScreen();
       default:
         return const Center(child: Text("Home"));
     }

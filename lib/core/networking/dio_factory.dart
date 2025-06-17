@@ -29,8 +29,7 @@ static void addDioInterCeptor() {
 
 class MyHttpOverrides extends HttpOverrides {
   @override
-/*************  ✨ Codeium Command ⭐  *************/
-/******  0c04276f-7011-4016-b67d-68cd5409231b  *******/
+
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
       ..badCertificateCallback =

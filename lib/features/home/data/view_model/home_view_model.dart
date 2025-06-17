@@ -7,12 +7,11 @@ class HomeViewModel {
 
   List<Category> getCategories() {
     return [
-      Category(image: "assets/images/homeassistance.jpg", title: "Home Assistance"),
-      Category(image: "assets/images/outdoor.jpg", title: "Outdoor"),
-      Category(image: "assets/images/personalcare.jpg", title: "Personal care"),
-      Category(image: "assets/images/groceries.jpg", title: "Groceries"),
-      Category(image: "assets/images/supermarket.jpg", title: "Supermarket"),
-      Category(image: "assets/images/pharmacy.jpg", title: "Pharmacy"),
+      Category(image: "assets/images/HomeAssistanceIcon.JPG", title: "Home Assistance"),
+      Category(image: "assets/images/OutdoorIcon.JPG", title: "Outdoor"),
+      Category(image: "assets/images/PersonalCareIcon.JPG", title: "Personal Care"),
+      Category(image: "assets/images/HyperMarketIcon.JPG", title: "Hyper Market"),
+      Category(image: "assets/images/DonorsIcon.JPG", title: "Donor"),
     ];
   }
 

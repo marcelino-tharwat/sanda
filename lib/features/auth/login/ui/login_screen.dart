@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sanda/core/helper/app_constant.dart';
 import 'package:sanda/core/helper/spacer.dart';
 import 'package:sanda/core/routing/routes.dart';
+import 'package:sanda/core/theming/colors.dart';
 import 'package:sanda/core/theming/styles.dart';
 import 'package:sanda/core/widgets/app_text_button.dart';
 import 'package:sanda/core/widgets/terms_and_condtions.dart';
@@ -25,15 +26,22 @@ class LoginScreen extends StatelessWidget {
             listener: (context, state) {
               if (state is LoginError) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.errorMessage)),
+                  SnackBar(
+                    content: Text(state.errorMessage),
+                    backgroundColor: ColorsManager.gray,
+                  ),
                 );
               } else if (state is LoginSuccess) {
                 userId = state.loginResModel.userId;
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Login Success")),
-                );
-                GoRouter.of(context).pushReplacement(Routes.navigationMenu);
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //   const SnackBar(
+                //     content: Text("Login Success"),
+                //     backgroundColor: ColorsManager.green,
+                //   ),
+                // );
+                GoRouter.of(context).pushReplacement(Routes.navigationMenu,
+                    extra: state.loginResModel);
               }
             },
             child: SingleChildScrollView(

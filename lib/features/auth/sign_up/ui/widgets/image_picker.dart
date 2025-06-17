@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sanda/core/helper/spacer.dart';
 import 'package:sanda/core/theming/colors.dart';
 import 'package:sanda/core/theming/styles.dart';
-import 'package:sanda/features/auth/sign_up/logic/sign_up_cubit.dart';
 
 class ImagePickerPage extends StatefulWidget {
   @override

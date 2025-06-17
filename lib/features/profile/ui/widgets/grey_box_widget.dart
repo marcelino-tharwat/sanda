@@ -14,7 +14,7 @@ class GreyBoxWidget extends StatelessWidget {
         horizontal: 16.0,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xffF3F3F3), // Grey box color
+        color: const Color(0xffF3F3F3), 
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(

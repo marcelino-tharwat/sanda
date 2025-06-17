@@ -35,9 +35,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
+  flutter_credit_card: ^3.0.1
   flutter_native_splash: ^2.4.3
   flutter_screenutil: ^5.9.3
-  flutter_secure_storage: ^4.2.1
+  flutter_secure_storage: ^9.2.4
   flutter_svg: ^2.0.15
   font_awesome_flutter: ^10.8.0
   form_builder_validators: ^11.0.0

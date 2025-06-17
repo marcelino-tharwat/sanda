@@ -9,4 +9,5 @@ class ColorsManager {
   static const Color wight =Colors.white;
   static const Color gray = Color(0xffB3B3B3);
   static const Color errorRed = Color.fromARGB(255, 255, 0, 0);
+  static const Color orange = Color.fromARGB(255, 255, 166, 0);
 }
